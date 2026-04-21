@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+
+<form id="chat">
+    <input type="text" name="username" placeholder="Nome">
+    
+    <div class="messages"></div>
+    
+    <input type="text" name="message" placeholder="Mensagem">
+    
+    <button type="submit">Enviar</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io(); // 🔥 ESSENCIAL (sem localhost)
+
+const form = document.getElementById('chat');
+const messagesContainer = document.querySelector('.messages');
+const inputUsername = document.querySelector('input[name=username]');
+const inputMessage = document.querySelector('input[name=message]');
+
+function renderMessage(message){
+    const div = document.createElement('div');
+    div.innerHTML = `<strong>${message.author}</strong>: ${message.message}`;
+    messagesContainer.appendChild(div);
+}
+
+socket.on('previousMessages', function(messages){
+    messages.forEach(message => renderMessage(message));
+});
+
+socket.on('receivedMessage', function(message){
+    renderMessage(message);
+});
+
+form.addEventListener('submit', function(event){
+    event.preventDefault();
+
+    const author = inputUsername.value;
+    const message = inputMessage.value;
+
+    if(author && message){
+        const messageObject = { author, message };
+
+        renderMessage(messageObject);
+        socket.emit('sendMessage', messageObject);
+
+        inputMessage.value = '';
+    }
+});
+</script>
+
+</body>
+</html>
