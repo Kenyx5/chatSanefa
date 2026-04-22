@@ -2,19 +2,20 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css">
-    <title>Chat do Sanefa</title>
+    <title>Chat-do-Sanefa</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <form id="chat">
-    <input type="text" name="username" placeholder="Nome">
-     <input type="text" name="message" placeholder="Mensagem">
-        <br>
-    <button type="submit">Enviar</button>
-    <div class="messages" id="submit"></div>
+  <input type="text" name="username" placeholder="Nome">
     
-   
+    <input type="text" name="message" placeholder="Mensagem">
+    <br>
+    <button type="submit" id="submit">Enviar</button>
+    
+    <div class="messages"></div>
+      
 </form>
 
 <script src="/socket.io/socket.io.js"></script>
